@@ -1,1 +1,1 @@
-# yooblog-admin-java
+yooblog
