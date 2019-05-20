@@ -27,7 +27,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     CommentsInfoServiceImpl commentsInfoService;
 
     @Autowired
-    TabServiceImpl tabService;
+    TagServiceImpl tabService;
 
     /**
      * 最近发布
@@ -69,35 +69,5 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         IPage<Article> articleIPage = page(page, queryWrapper);
         //3.转换泛型
         return articleIPage.convert(ArticleServiceImpl::apply);
-    }
-
-    /**
-     * 获取文章详情
-     * @param aId 文章Id
-     * @return
-     */
-    public ArticleDto getArticle(String aId) throws YooException {
-        //1.拼接文章查询条件
-        QueryWrapper<Article> articleQueryWrapper = new QueryWrapper<>();
-        articleQueryWrapper.eq("a_id", aId);
-        articleQueryWrapper.eq("pub", 1);
-        //2.执行文章查询
-        Article article = baseMapper.selectOne(articleQueryWrapper);
-        if (article == null) {
-            throw new YooException(ARTICLE_NOT_EXIST);
-        }
-        //3.拼接评论数查询条件
-        QueryWrapper<CommentsInfo> commentsInfoQueryWrapper = new QueryWrapper<>();
-        commentsInfoQueryWrapper.eq("owner_id", aId);
-        commentsInfoQueryWrapper.eq("type", TO_ARTICLE);
-        commentsInfoQueryWrapper.eq("valid", 1);
-        //4.执行评论数查询
-        int count = commentsInfoService.count(commentsInfoQueryWrapper);
-        //5.填充DTO
-        ArticleDto articleDto = new ArticleDto();
-        BeanUtils.copyProperties(article, articleDto);
-        articleDto.setReplyCount(count);
-
-        return articleDto;
     }
 }

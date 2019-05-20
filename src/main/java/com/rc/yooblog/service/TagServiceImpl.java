@@ -2,10 +2,10 @@ package com.rc.yooblog.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rc.yooblog.common.condition.TabCondition;
-import com.rc.yooblog.entity.Tab;
-import com.rc.yooblog.mapper.TabMapper;
+import com.rc.yooblog.common.condition.TagCondition;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rc.yooblog.entity.Tag;
+import com.rc.yooblog.mapper.TagMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,16 +20,16 @@ import java.util.List;
  * @since 2019-04-04
  */
 @Service
-public class TabServiceImpl extends ServiceImpl<TabMapper, Tab> implements IService<Tab> {
+public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements IService<Tag> {
 
     /**
      * 条件查找
      * @param condition
      * @return
      */
-    public List<Tab> findByCondition(TabCondition condition) {
+    public List<Tag> findByCondition(TagCondition condition) {
         //1.拼接查询条件
-        QueryWrapper<Tab> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<Tag> queryWrapper = new QueryWrapper<>();
         //ID
         if (condition.getTId() != null) {
             queryWrapper.eq("t_id", condition.getTId());

@@ -1,11 +1,11 @@
 package com.rc.yooblog.controller;
 
-import com.rc.yooblog.common.condition.TabCondition;
+import com.rc.yooblog.common.condition.TagCondition;
 import com.rc.yooblog.common.utils.ResultVOUtil;
 import com.rc.yooblog.common.vo.ResultVO;
-import com.rc.yooblog.entity.Tab;
+import com.rc.yooblog.entity.Tag;
 import com.rc.yooblog.exception.YooException;
-import com.rc.yooblog.service.TabServiceImpl;
+import com.rc.yooblog.service.TagServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -24,34 +24,34 @@ import static com.rc.yooblog.exception.ResultEnum.SAVE_FAIL;
 @Api(value = "标签管理",tags = "标签管理")
 @RequestMapping("/manage")
 @Slf4j
-public class TabCotroller {
+public class TagController {
     @Autowired
-    TabServiceImpl tabService;
+    TagServiceImpl tagService;
 
-    @GetMapping("/tabs")
+    @GetMapping("/tags")
     @ApiOperation(value = "获取所有的标签", notes = "分类标签")
-    public ResultVO tabs() {
-        List<Tab> list = tabService.list();
+    public ResultVO Tags() {
+        List<Tag> list = tagService.list();
         return ResultVOUtil.success(list);
     }
 
-    @PostMapping("/tab")
+    @PostMapping("/tag")
     @ApiOperation(value = "更改标签", notes = "更改标签")
-    public ResultVO tab(@RequestBody Tab tab) throws YooException {
-        boolean isSuccess = tabService.saveOrUpdate(tab);
+    public ResultVO Tag(@RequestBody Tag Tag) throws YooException {
+        boolean isSuccess = tagService.saveOrUpdate(Tag);
         if (!isSuccess) {
             throw new YooException(SAVE_FAIL);
         }
-        return ResultVOUtil.success(tab);
+        return ResultVOUtil.success(Tag);
     }
 
-    @GetMapping("/tab")
+    @GetMapping("/tag")
     @ApiOperation(value = "更改标签", notes = "更改标签")
-    public ResultVO tab(TabCondition condition) {
+    public ResultVO Tag(TagCondition condition) {
         log.info("condition input :{}", condition);
 
-        List<Tab> tabs = tabService.findByCondition(condition);
+        List<Tag> Tags = tagService.findByCondition(condition);
 
-        return ResultVOUtil.success(tabs);
+        return ResultVOUtil.success(Tags);
     }
 }

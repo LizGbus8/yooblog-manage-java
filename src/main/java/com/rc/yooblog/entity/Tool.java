@@ -17,15 +17,15 @@ import java.time.LocalDateTime;
  */
 @Data
 @Accessors(chain = true)
-public class Utils{
+public class Tool{
 
     private static final long serialVersionUID = 1L;
 
     /**
      * 编号
      */
-    @TableId(value = "ut_id", type = IdType.AUTO)
-    private Integer utId;
+    @TableId(value = "tool_id", type = IdType.AUTO)
+    private Integer toolId;
 
     /**
      * 标题

@@ -1,22 +1,17 @@
 package com.rc.yooblog.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rc.yooblog.common.dto.ArticleDto;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rc.yooblog.common.utils.ResultVOUtil;
 import com.rc.yooblog.common.vo.ResultVO;
+import com.rc.yooblog.entity.Article;
 import com.rc.yooblog.exception.YooException;
 import com.rc.yooblog.service.ArticleServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import static com.rc.yooblog.common.contants.ReqCode.LATELY;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -24,7 +19,8 @@ import static com.rc.yooblog.common.contants.ReqCode.LATELY;
  * 描述：
  */
 @RestController
-@Api(value = "文章的API", tags = "文章")
+@Api(value = "文章管理", tags = "文章管理")
+@RequestMapping("/manage")
 @Slf4j
 public class ArticleController {
 
@@ -33,23 +29,19 @@ public class ArticleController {
 
     @GetMapping("/articles")
     @ApiOperation(value = "获取文章列表")
-    public ResultVO articles(@ApiParam(value = "标签ID,注：其中777，888，999，为特殊标识，用于获取最新、热门等") @RequestParam("tId") Integer tId, @RequestParam("currentPage") Integer current, @RequestParam("size") Integer size) {
-        IPage<ArticleDto> articleDtoIPage;
+    public ResultVO articles(@RequestParam("current") Integer current, @RequestParam("size") Integer size) {
+        //1.分页设置
+        IPage<Article> page = new Page<>(current,size);
+        //2.查询
+        IPage<Article> articlePage = articleService.page(page);
 
-        if (tId.equals(LATELY)) {
-            //获取最新发布
-            articleDtoIPage = articleService.getLately(current, size);
-        }else {
-            articleDtoIPage = articleService.getArticlesByTabId(tId, current, size);
-        }
-
-        return ResultVOUtil.success(articleDtoIPage);
+        return ResultVOUtil.success(articlePage);
     }
 
     @GetMapping("/article/{aId}")
     @ApiOperation(value = "获取文章详情")
     public ResultVO article(@PathVariable("aId") String aId) throws YooException {
-        ArticleDto articleDto = articleService.getArticle(aId);
-        return ResultVOUtil.success(articleDto);
+        Article article = articleService.getById(aId);
+        return ResultVOUtil.success(article);
     }
 }

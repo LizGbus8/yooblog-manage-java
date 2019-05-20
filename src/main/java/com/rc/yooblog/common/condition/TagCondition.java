@@ -7,7 +7,7 @@ import lombok.Data;
  * 描述：
  */
 @Data
-public class TabCondition {
+public class TagCondition {
 
     private Integer tId;
 

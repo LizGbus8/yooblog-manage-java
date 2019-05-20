@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Users {
-    @TableId(value = "uid", type = IdType.AUTO)
-    private Integer uid ;
+public class Blogger {
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id ;
     /** 名字 */
     private String nickname ;
     /** 说说 */
@@ -27,8 +27,6 @@ public class Users {
     private String github ;
     /** 掘金 */
     private String juejin ;
-    /** 关于博主 */
-    private String about ;
     /** 创建时间 */
     private LocalDateTime createdTime ;
     /** 更新时间 */
