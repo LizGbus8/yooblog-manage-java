@@ -2,7 +2,7 @@ package com.rc.yooblog.controller;
 
 import com.rc.yooblog.common.dto.CommentDto;
 import com.rc.yooblog.common.dto.ReplyDto;
-import com.rc.yooblog.common.utils.IpUtils;
+import com.rc.yooblog.common.proxy.IpUtils;
 import com.rc.yooblog.common.utils.ResultVOUtil;
 import com.rc.yooblog.common.vo.ResultVO;
 import com.rc.yooblog.service.CommentsInfoServiceImpl;

@@ -2,7 +2,7 @@ package com.rc.yooblog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rc.yooblog.common.dto.ReplyDto;
-import com.rc.yooblog.common.utils.IpUtils;
+import com.rc.yooblog.common.proxy.IpUtils;
 import com.rc.yooblog.common.utils.KeyUtil;
 import com.rc.yooblog.entity.CommentsReply;
 import com.rc.yooblog.mapper.CommentsReplyMapper;

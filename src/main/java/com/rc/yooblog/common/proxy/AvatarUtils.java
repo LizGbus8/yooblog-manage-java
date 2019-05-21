@@ -1,4 +1,6 @@
-package com.rc.yooblog.common.utils;
+package com.rc.yooblog.common.proxy;
+
+import com.rc.yooblog.common.utils.MD5Utils;
 
 /**
  * 作者：flandre on 2019/4/8 21:34

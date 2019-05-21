@@ -1,6 +1,7 @@
 package com.rc.yooblog.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -44,6 +45,7 @@ public class Favorites{
 
     private LocalDateTime createdTime;
 
+    @TableField(value = "updated_time", update = "now()")
     private LocalDateTime updateTime;
 
 

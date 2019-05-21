@@ -1,4 +1,4 @@
-package com.rc.yooblog.common.utils;
+package com.rc.yooblog.common.proxy;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSONArray;

@@ -30,24 +30,24 @@ public class TagController {
 
     @GetMapping("/tags")
     @ApiOperation(value = "获取所有的标签", notes = "分类标签")
-    public ResultVO Tags() {
+    public ResultVO list() {
         List<Tag> list = tagService.list();
         return ResultVOUtil.success(list);
     }
 
     @PostMapping("/tag")
     @ApiOperation(value = "更改标签", notes = "更改标签")
-    public ResultVO Tag(@RequestBody Tag Tag) throws YooException {
-        boolean isSuccess = tagService.saveOrUpdate(Tag);
+    public ResultVO saveOrUpdateTag(@RequestBody Tag tag) throws YooException {
+        boolean isSuccess = tagService.saveOrUpdate(tag);
         if (!isSuccess) {
             throw new YooException(SAVE_FAIL);
         }
-        return ResultVOUtil.success(Tag);
+        return ResultVOUtil.success(tag);
     }
 
     @GetMapping("/tag")
     @ApiOperation(value = "更改标签", notes = "更改标签")
-    public ResultVO Tag(TagCondition condition) {
+    public ResultVO selectTag(TagCondition condition) {
         log.info("condition input :{}", condition);
 
         List<Tag> Tags = tagService.findByCondition(condition);

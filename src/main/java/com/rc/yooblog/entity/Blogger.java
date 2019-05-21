@@ -1,6 +1,7 @@
 package com.rc.yooblog.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,5 +31,6 @@ public class Blogger {
     /** 创建时间 */
     private LocalDateTime createdTime ;
     /** 更新时间 */
+    @TableField(value = "updated_time", update = "now()")
     private LocalDateTime updatedTime ;
 }
