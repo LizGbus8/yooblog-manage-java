@@ -65,7 +65,7 @@ public class ArticleController {
     public ResultVO selectArticle(ArticleCondition condition){
         log.info("condition input : {}", condition);
 
-        IPage<Article> articlePage = articleService.findByContition(condition);
+        IPage<Article> articlePage = articleService.findByCondition(condition);
         return ResultVOUtil.success(articlePage);
     }
 }

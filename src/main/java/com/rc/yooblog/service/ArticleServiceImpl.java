@@ -79,7 +79,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      *
      * @param condition
      */
-    public IPage<Article> findByContition(ArticleCondition condition) {
+    public IPage<Article> findByCondition(ArticleCondition condition) {
         //1.拼接查询条件
         QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(condition.getTitle())) {
@@ -93,7 +93,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         if (condition.getCreatedTimes() != null && condition.getCreatedTimes().length == 2) {
             queryWrapper.ge("created_time", new Date(condition.getCreatedTimes()[0]));
-            queryWrapper.ge("created_time", new Date(condition.getCreatedTimes()[1]));
+            queryWrapper.le("created_time", new Date(condition.getCreatedTimes()[1]));
         }
         Page<Article> page = new Page<>(condition.getCurrent(), 10);
 

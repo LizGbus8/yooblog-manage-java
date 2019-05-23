@@ -1,10 +1,13 @@
 package com.rc.yooblog.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rc.yooblog.common.dto.CommentDto;
 import com.rc.yooblog.common.dto.ReplyDto;
 import com.rc.yooblog.common.proxy.IpUtils;
 import com.rc.yooblog.common.utils.ResultVOUtil;
 import com.rc.yooblog.common.vo.ResultVO;
+import com.rc.yooblog.entity.CommentsInfo;
+import com.rc.yooblog.entity.CommentsReply;
 import com.rc.yooblog.service.CommentsInfoServiceImpl;
 import com.rc.yooblog.service.CommentsReplyServiceImpl;
 import io.swagger.annotations.Api;
@@ -21,7 +24,8 @@ import java.util.List;
  * 描述：
  */
 @RestController
-@Api(value = "评论留言相关API", tags = "评论&留言")
+@RequestMapping("/manage")
+@Api(value = "评论留言相关API", tags = "评论&留言管理")
 public class CommentController {
 
     @Autowired
@@ -40,45 +44,15 @@ public class CommentController {
 
     @GetMapping("/talks")
     @ApiOperation(value = "获取留言列表")
-    public ResultVO comments(@RequestParam(value = "current", defaultValue = "1", required = false) Integer current, @RequestParam(value = "size", defaultValue = "10", required = false) Integer size) {
-        List<CommentDto> commentDtos = commentsInfoService.getTalks(current, size);
-        return ResultVOUtil.success(commentDtos);
+    public ResultVO talks(@RequestParam(value = "current", defaultValue = "1", required = false) Integer current, @RequestParam(value = "size", defaultValue = "10", required = false) Integer size) {
+        IPage<CommentsInfo> talks = commentsInfoService.getTalks(current, size);
+        return ResultVOUtil.success(talks);
     }
 
-    @PostMapping("/talk")
-    @ApiOperation(value = "添加一条留言")
-    public ResultVO talk(@RequestParam(value = "nickName") String nickName, @RequestParam("email") String email, @RequestParam("website") String website, @RequestParam("content") String content, HttpServletRequest request) throws Exception {
-        //获取客户端ip
-        String remoteIP = IpUtils.getRemoteIP(request);
-        CommentDto commentDto = commentsInfoService.addTalk(nickName, email, website, content, remoteIP);
-        return ResultVOUtil.success(commentDto);
+    @GetMapping("/replies")
+    @ApiOperation(value = "获取子回复列表")
+    public ResultVO replies(@RequestParam("commentsId") String commentsId) {
+        List<CommentsReply> replies = commentsReplyService.getReplies(commentsId);
+        return ResultVOUtil.success(replies);
     }
-
-    @PostMapping("/article/comment")
-    @ApiOperation(value = "文章回复")
-    public ResultVO articleComment(@ApiParam("评论所属ownerId") @RequestParam(value = "id") String ownerId, @RequestParam(value = "nickName") String nickName, @RequestParam("email") String email, @RequestParam("website") String website, @RequestParam("content") String content, HttpServletRequest request){
-        //获取客户端ip
-        String remoteIP = IpUtils.getRemoteIP(request);
-        CommentDto commentDto = commentsInfoService.addArticleComment(ownerId, nickName, email, website, content, remoteIP);
-        return ResultVOUtil.success(commentDto);
-    }
-
-    @PostMapping("/reply/comment")
-    @ApiOperation(value = "对留言或者评论的回复")
-    public ResultVO reply2Comment(@ApiParam("回复的主体Id,即cid") @RequestParam("id") String cid, @RequestParam(value = "nickName") String nickName, @RequestParam("email") String email, @RequestParam("website") String website, @RequestParam("content") String content, HttpServletRequest request) {
-        //获取客户端ip
-        String remoteIP = IpUtils.getRemoteIP(request);
-        ReplyDto replyDto = commentsInfoService.addReply2Comment(cid, nickName, email, website, content, remoteIP);
-        return ResultVOUtil.success(replyDto);
-    }
-
-    @PostMapping("/reply/reply")
-    @ApiOperation(value = "对回复的回复")
-    public ResultVO reply2Reply(@ApiParam("子回复Id,即rid") @RequestParam("id") String rid, @RequestParam(value = "nickName") String nickName, @RequestParam("email") String email, @RequestParam("website") String website, @RequestParam("content") String content, HttpServletRequest request) {
-        //获取客户端ipr
-        String remoteIP = IpUtils.getRemoteIP(request);
-        ReplyDto replyDto = commentsReplyService.addReply2Reply(rid, nickName, email, website, content, remoteIP);
-        return ResultVOUtil.success(replyDto);
-    }
-
 }

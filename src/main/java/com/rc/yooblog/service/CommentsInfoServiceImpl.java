@@ -51,6 +51,7 @@ public class CommentsInfoServiceImpl extends ServiceImpl<CommentsInfoMapper, Com
         //1.拼接查询条件
         QueryWrapper<CommentsInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("owner_id", ownerId);
+
         //2.执行查询方法
         return query(queryWrapper, current, size);
     }
@@ -61,12 +62,15 @@ public class CommentsInfoServiceImpl extends ServiceImpl<CommentsInfoMapper, Com
      * @param size
      * @return
      */
-    public List<CommentDto> getTalks(Integer current, Integer size) {
+    public IPage<CommentsInfo> getTalks(Integer current, Integer size) {
         //1.拼接查询条件
         QueryWrapper<CommentsInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("type", 0);
-        //2.执行查询
-        return query(queryWrapper, current, size);
+        queryWrapper.orderByDesc("floor");
+        Page<CommentsInfo> page = new Page<>(current, size);
+
+        //2.执行查询 返回结果
+        return page(page, queryWrapper);
     }
 
     private List<CommentDto> query(QueryWrapper<CommentsInfo> queryWrapper, Integer current, Integer size) {
